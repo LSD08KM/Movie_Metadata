@@ -329,7 +329,8 @@ def print_files(path, leak_word, c_word, naming_rule, part, cn_sub, json_data, f
             except:
                 print(f"[-]Fatal error! can not make folder '{path}'")
                 os._exit(0)
-
+        nfo_path_edit = os.path.join("./nfo", f"{number}{part}{leak_word}{c_word}{hack_word}.nfo")
+        # 用于保留旧nfo评分信息
         old_nfo = None
         try:
             if os.path.isfile(nfo_path):
@@ -344,7 +345,7 @@ def print_files(path, leak_word, c_word, naming_rule, part, cn_sub, json_data, f
             outline = f"{outline}"
         else:
             outline = f"{number}#{outline}"
-        with open(nfo_path, "wt", encoding='UTF-8') as code:
+        with open(nfo_path_edit, "wt", encoding='UTF-8') as code:
             print('<?xml version="1.0" encoding="UTF-8" ?>', file=code)
             print("<movie>", file=code)
             if not config.getInstance().jellyfin():
@@ -475,7 +476,11 @@ def print_files(path, leak_word, c_word, naming_rule, part, cn_sub, json_data, f
                 print("  <trailer>" + trailer + "</trailer>", file=code)
             print("  <website>" + website + "</website>", file=code)
             print("</movie>", file=code)
-            print("[+]Wrote!            " + nfo_path)
+            #print("[+]Wrote!            " + nfo_path)
+            code.close()
+            print("[+]Wrote!            " + nfo_path_edit)
+            shutil.move(nfo_path_edit,nfo_path)
+            print("[+]Moved!            " + nfo_path)
     except IOError as e:
         print("[-]Write Failed!")
         print("[-]", e)
