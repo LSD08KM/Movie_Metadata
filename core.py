@@ -950,22 +950,21 @@ def core_main(movie_path, number_th, oCC, specified_source=None, specified_url=N
         path = create_folder(json_data)
         print('[+]PATH:         ' + path)
         cache_path = f".\cache"
-        print('[+] cache PATH:         ' + cache_path)
         if multi_part == 1:
             number += part  # 这时number会被附加上CD1后缀
 
         # 检查小封面, 如果image cut为3，则下载小封面
         if imagecut == 3:
             if 'headers' in json_data:
-                small_cover_check(path, poster_path, json_data.get('cover_small'), movie_path, json_data)
+                small_cover_check(cache_path, poster_path, json_data.get('cover_small'), movie_path, json_data)
             else:
-                small_cover_check(path, poster_path, json_data.get('cover_small'), movie_path)
+                small_cover_check(cache_path, poster_path, json_data.get('cover_small'), movie_path)
 
         # creatFolder会返回番号路径
         if 'headers' in json_data:
-            image_download(cover, fanart_path, thumb_path, path, movie_path, json_data)
+            image_download(cover, fanart_path, thumb_path, cache_path, movie_path, json_data)
         else:
-            image_download(cover, fanart_path, thumb_path, path, movie_path)
+            image_download(cover, fanart_path, thumb_path, cache_path, movie_path)
 
         if not multi_part or part.lower() == '-cd1':
             try:
@@ -1002,8 +1001,13 @@ def core_main(movie_path, number_th, oCC, specified_source=None, specified_url=N
             cn_sub = True
         # 添加水印
         if conf.is_watermark():
-            add_mark(os.path.join(path, poster_path), os.path.join(path, thumb_path), cn_sub, leak, uncensored,
+            add_mark(os.path.join(cache_path, poster_path), os.path.join(cache_path, thumb_path), cn_sub, leak, uncensored,
                      hack, _4k, iso)
+
+        # 从缓存复制走图片
+        shutil.copy(os.path.join(cache_path, poster_path),os.path.join(path, poster_path))
+        shutil.copy(os.path.join(cache_path, thumb_path),os.path.join(path, thumb_path))
+        shutil.copy(os.path.join(cache_path, fanart_path),os.path.join(path, fanart_path))
 
         # 最后输出.nfo元数据文件，以完成.nfo文件创建作为任务成功标志
         print_files(path, leak_word, c_word, json_data.get('naming_rule'), part, cn_sub, json_data, movie_path, tag,
