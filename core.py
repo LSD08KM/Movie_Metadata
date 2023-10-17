@@ -329,7 +329,7 @@ def print_files(path, leak_word, c_word, naming_rule, part, cn_sub, json_data, f
             except:
                 print(f"[-]Fatal error! can not make folder '{path}'")
                 os._exit(0)
-        nfo_path_edit = os.path.join("./nfo", f"{number}{part}{leak_word}{c_word}{hack_word}.nfo")
+        nfo_path_edit = os.path.join(".\cache", f"{number}{part}{leak_word}{c_word}{hack_word}.nfo")
         # 用于保留旧nfo评分信息
         old_nfo = None
         try:
@@ -479,7 +479,7 @@ def print_files(path, leak_word, c_word, naming_rule, part, cn_sub, json_data, f
             #print("[+]Wrote!            " + nfo_path)
             code.close()
             print("[+]Wrote!            " + nfo_path_edit)
-            shutil.move(nfo_path_edit,nfo_path)
+            shutil.copy(nfo_path_edit,nfo_path)
             print("[+]Moved!            " + nfo_path)
     except IOError as e:
         print("[-]Write Failed!")
@@ -948,6 +948,7 @@ def core_main(movie_path, number_th, oCC, specified_source=None, specified_url=N
     if conf.main_mode() == 1:
         # 创建文件夹
         path = create_folder(json_data)
+        print('[+]PATH:         ' + path)
         if multi_part == 1:
             number += part  # 这时number会被附加上CD1后缀
 
