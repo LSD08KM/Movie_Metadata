@@ -92,7 +92,7 @@ def core_main(movie_path, number_th, oCC, specified_source=None, specified_url=N
                 pass
 
         # 裁剪图
-        cutImage(imagecut, path, thumb_path, poster_path, bool(conf.face_uncensored_only() and not uncensored))
+        cutImage(imagecut, cache_path, thumb_path, poster_path, bool(conf.face_uncensored_only() and not uncensored))
 
         # 兼容Jellyfin封面图文件名规则
         if multi_part and conf.jellyfin_multi_part_fanart():
