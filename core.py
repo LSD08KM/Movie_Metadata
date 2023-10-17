@@ -950,7 +950,7 @@ def core_main(movie_path, number_th, oCC, specified_source=None, specified_url=N
         path = create_folder(json_data)
         print('[+]PATH:         ' + path)
         cache_path = f".\cache"
-        print('[+] cache PATH:         ' + cache)
+        print('[+] cache PATH:         ' + cache_path)
         if multi_part == 1:
             number += part  # 这时number会被附加上CD1后缀
 
